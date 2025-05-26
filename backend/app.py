@@ -116,7 +116,7 @@ def read_excel_file(path):
         print(f"Error reading Excel file: {e}")
         return None
 
-courses_df = read_excel_file("backend/data/courses.xlsx")
+courses_df = read_excel_file("data/courses.xlsx")
 
 if courses_df is not None:
     print(courses_df.head())
@@ -136,7 +136,7 @@ def get_courses():
 
 @app.route('/users')
 def get_users():
-    users_df = read_excel_file("backend/data/users.xlsx")
+    users_df = read_excel_file("data/users.xlsx")
     if users_df is not None:
         return jsonify(users_df.replace(np.nan, None).to_dict(orient='records'))
     else:
@@ -144,7 +144,7 @@ def get_users():
 
 @app.route('/topics')
 def get_topics():
-    topics_df = read_excel_file("backend/data/topics.xlsx")
+    topics_df = read_excel_file("data/topics.xlsx")
     if topics_df is not None:
         return jsonify(topics_df.replace(np.nan, None).to_dict(orient='records'))
     else:
@@ -152,7 +152,7 @@ def get_topics():
 
 @app.route('/entries')
 def get_entries():
-    entries_df = read_excel_file("backend/data/entries.xlsx")
+    entries_df = read_excel_file("data/entries.xlsx")
     if entries_df is not None:
         return jsonify(entries_df.replace(np.nan, None).to_dict(orient='records'))
     else:
@@ -189,7 +189,7 @@ def get_user_stats(user_id):
 
 @app.route('/enrollment')
 def get_enrollment():
-    enrollment_df = read_excel_file("backend/data/enrollment.xlsx")
+    enrollment_df = read_excel_file("data/enrollment.xlsx")
     if enrollment_df is not None:
         return jsonify(enrollment_df.replace(np.nan, None).to_dict(orient='records'))
     else:
@@ -289,7 +289,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 # Read the users.xlsx file
-users_df = pd.read_excel('backend/data/users.xlsx')
+users_df = pd.read_excel('data/users.xlsx')
 
 # Print the unique values in the user_state column
 print(users_df['user_state'].unique())
@@ -307,12 +307,12 @@ def load_data(file_path, model, dtype=None, enum_columns=None):
     df.to_sql(model.__tablename__, engine, if_exists='replace', index=False, dtype={col: String for col in enum_columns} if enum_columns else None)
 
 # Load data from Excel files
-load_data('backend/data/courses.xlsx', Course)
-load_data('backend/data/users.xlsx', User, enum_columns={'user_state': UserState})
-load_data('backend/data/login.xlsx', Login)
-load_data('backend/data/topics.xlsx', Topic, enum_columns={'topic_state': TopicState})
-load_data('backend/data/entries.xlsx', Entry, enum_columns={'entry_state': EntryState})
-load_data('backend/data/enrollment.xlsx', Enrollment, enum_columns={'enrollment_type': EnrollmentType, 'enrollment_state': EnrollmentState})
+load_data('data/courses.xlsx', Course)
+load_data('data/users.xlsx', User, enum_columns={'user_state': UserState})
+load_data('data/login.xlsx', Login)
+load_data('data/topics.xlsx', Topic, enum_columns={'topic_state': TopicState})
+load_data('data/entries.xlsx', Entry, enum_columns={'entry_state': EntryState})
+load_data('data/enrollment.xlsx', Enrollment, enum_columns={'enrollment_type': EnrollmentType, 'enrollment_state': EnrollmentState})
 
 # Commit the changes
 session.commit()
